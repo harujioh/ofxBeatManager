@@ -30,7 +30,7 @@ class ofxBeatManager : public ofThread {
     void bang(float bar);
 
     // event handler
-    ofEvent<float> onBeatEvent;
+    ofEvent<ofxBeat> onBeatEvent;
 
    private:
     void startThread();
