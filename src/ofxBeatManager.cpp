@@ -66,7 +66,9 @@ void ofxBeatManager::threadedUpdate() {
         // hook event
         if (lastUpdateFloorBar != floorBar) {
             if (limitBar < 0 || floorBar < limitBar) {
-                ofNotifyEvent(onBeatEvent, floorBar);
+                ofxBeat *beat = new ofxBeat(now, floorBar, speed);
+                ofNotifyEvent(onBeatEvent, *beat);
+                delete beat;
             }
         }
     }
