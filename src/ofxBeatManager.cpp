@@ -75,10 +75,10 @@ void ofxBeatManager::threadedUpdate() {
 
 // bang
 void ofxBeatManager::bang(float bar) {
-    if(lastReceivedBeat != NULL && lastReceivedBeat->bar == bar){
+    if (lastReceivedBeat != NULL && lastReceivedBeat->bar == bar) {
         return;
     }
-    
+
     while (beats.size() >= KEEP_BEAT_LENGTH) {
         delete beats[0];
         beats.erase(beats.begin());
