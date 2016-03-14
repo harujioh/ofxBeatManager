@@ -4,7 +4,7 @@
 #include "ofxBeat.h"
 
 // ビートを保存しておく数
-static const int KEEP_BEAT_LENGTH = 20;
+static const int KEEP_BEAT_LENGTH = 100;
 
 // 小説を丸める時の有効桁数
 static const int EFFECTIVE_DIGIT_FOR_ROUND_BAR = 3;
@@ -14,7 +14,7 @@ static const int EFFECTIVE_DIGIT_FOR_ROUND_BAR = 3;
  */
 class ofxBeatManager : public ofThread {
    public:
-    ofxBeatManager() {}
+    ofxBeatManager() { initVar(); }
     ~ofxBeatManager();
 
     // setter
@@ -27,7 +27,7 @@ class ofxBeatManager : public ofThread {
     void threadedFunction();
 
     // beat
-    void bang(float bar);
+    float bang(float bar);
 
     // event handler
     ofEvent<ofxBeat> onBeatEvent;
@@ -42,8 +42,8 @@ class ofxBeatManager : public ofThread {
 
     // var
     vector<ofxBeat *> beats;
-    ofxBeat *lastReceivedBeat = NULL;
-    float speed = -1;
-    float lastUpdateBar = -1;
+    ofxBeat *lastReceivedBeat;
+    float speed;
+    float lastUpdateBar;
     void initVar();
 };

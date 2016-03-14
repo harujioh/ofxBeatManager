@@ -19,7 +19,7 @@ void ofxBeatManager::initVar() {
     beats.clear();
 
     lastReceivedBeat = NULL;
-    speed = -1;
+    speed = 0;
     lastUpdateBar = -1;
 }
 
@@ -76,9 +76,9 @@ void ofxBeatManager::threadedUpdate() {
 }
 
 // bang
-void ofxBeatManager::bang(float bar) {
+float ofxBeatManager::bang(float bar) {
     if (lastReceivedBeat != NULL && lastReceivedBeat->bar == bar) {
-        return;
+        return speed;
     }
 
     while (beats.size() >= KEEP_BEAT_LENGTH) {
@@ -103,4 +103,5 @@ void ofxBeatManager::bang(float bar) {
         }
         speed = speedSum / speedTotal;
     }
+    return speed;
 }
