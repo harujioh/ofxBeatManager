@@ -21,6 +21,9 @@ class ofxBeatManager : public ofThread {
     void setLimitBar(float limitBar) { this->limitBar = limitBar; }
     void setEventIntervalBar(float eventIntervalBar) { this->eventIntervalBar = eventIntervalBar; }
 
+    // getter
+    float getUpdateBar() { return updateBar; }
+
     // thread
     void start();
     void reset();
@@ -44,6 +47,6 @@ class ofxBeatManager : public ofThread {
     vector<ofxBeat *> beats;
     ofxBeat *lastReceivedBeat;
     float speed;
-    float lastUpdateBar;
+    float updateBar, lastUpdateBar;
     void initVar();
 };

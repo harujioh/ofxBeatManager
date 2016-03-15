@@ -57,10 +57,10 @@ void ofxBeatManager::threadedUpdate() {
     }
 
     uint64_t now = ofGetElapsedTimeMillis();
-    float bar = lastReceivedBeat->bar + (float)(now - lastReceivedBeat->millis) / speed;
+    updateBar = lastReceivedBeat->bar + (float)(now - lastReceivedBeat->millis) / speed;
 
     if (lastUpdateBar >= 0 && eventIntervalBar > 0) {
-        float floorBar = floor(bar / eventIntervalBar) * eventIntervalBar;
+        float floorBar = floor(updateBar / eventIntervalBar) * eventIntervalBar;
         float lastUpdateFloorBar = floor(lastUpdateBar / eventIntervalBar) * eventIntervalBar;
 
         // hook event
@@ -72,7 +72,7 @@ void ofxBeatManager::threadedUpdate() {
             }
         }
     }
-    lastUpdateBar = bar;
+    lastUpdateBar = updateBar;
 }
 
 // bang
