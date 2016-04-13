@@ -46,6 +46,7 @@ class ofxBeatManager : public ofThread {
     // var
     vector<ofxBeat *> beats;
     ofxBeat *lastReceivedBeat;
+    float newestIntervalBar;
     float speed;
     float updateBar, lastUpdateBar;
     void initVar();

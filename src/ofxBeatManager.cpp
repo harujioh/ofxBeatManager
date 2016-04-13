@@ -20,6 +20,7 @@ void ofxBeatManager::initVar() {
 
     lastReceivedBeat = NULL;
     speed = 0;
+    newestIntervalBar = -1;
     lastUpdateBar = -1;
 }
 
@@ -78,7 +79,7 @@ void ofxBeatManager::threadedUpdate() {
 // bang
 float ofxBeatManager::bang(float bar) {
     if (lastReceivedBeat != NULL && lastReceivedBeat->bar == bar) {
-        return speed;
+        return 1000 / (speed * newestIntervalBar / 60);
     }
 
     while (beats.size() >= KEEP_BEAT_LENGTH) {
@@ -90,18 +91,29 @@ float ofxBeatManager::bang(float bar) {
     beats.push_back(lastReceivedBeat);
 
     if (beats.size() >= 2) {
-        float speedSum = 0;
-        int speedTotal = 0;
+        for (int i = beats.size() - 1; i > 0; i--) {
+            if (beats[i]->bar > beats[i - 1]->bar) {
+                newestIntervalBar = beats[i]->bar - beats[i - 1]->bar;
+                break;
+            }
+        }
+        if (newestIntervalBar < 0) {
+            return 1000 / (speed * newestIntervalBar / 60);
+        }
+
+        float millisPerBarSum = 0;
+        int millisPerBarTotal = 0;
         for (int i = 0; i < beats.size() - 1; i++) {
             float intervalBar = beats[i + 1]->bar - beats[i]->bar;
             float intervalMillis = beats[i + 1]->millis - beats[i]->millis;
 
             if (intervalBar > 0 && intervalMillis > 0) {
-                speedSum += intervalMillis / intervalBar;
-                speedTotal++;
+                millisPerBarSum += intervalMillis / intervalBar;
+                millisPerBarTotal++;
             }
         }
-        speed = speedSum / speedTotal;
+        speed = millisPerBarSum / millisPerBarTotal;
     }
-    return speed;
+
+    return 1000 / (speed * newestIntervalBar / 60);
 }
